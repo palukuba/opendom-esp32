@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPENDOM</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1a1a1a">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="logo">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="75" height="45" viewBox="0 0 300.000000 180.000000" preserveAspectRatio="xMidYMid meet" fill="currentColor">
+                    <g transform="translate(0.000000,180.000000) scale(0.050000,-0.050000)" fill="currentColor" stroke="none">
+                        <path d="M1380 3297 c-1477 -241 -1787 -2244 -450 -2908 1448 -720 2863 920 1963 2275 -42 63 -70 124 -63 135 28 46 1577 27 1738 -21 719 -214 949 -1042 433 -1560 -208 -209 -431 -296 -761 -297 -149 -1 -147 -4 -142 347 2 171 -2 352 -9 402 l-14 90 -247 0 -248 0 0 -668 0 -667 45 -12 c73 -20 594 -15 814 8 1189 122 1759 1473 1002 2374 -223 266 -503 430 -846 495 -183 34 -3009 41 -3215 7z m423 -506 c841 -150 1162 -1193 545 -1770 -425 -397 -1048 -396 -1452 4 -728 720 -98 1946 907 1766z"/>
+                    </g>
+                </svg>
+                <h1>OPENDOM</h1>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <input type="text" id="username" placeholder="Nom d'utilisateur" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Mot de passe" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Se connecter</button>
+                <div id="loginError" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="main-app hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-small">
+                    <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="42" height="25" viewBox="0 0 300.000000 180.000000" preserveAspectRatio="xMidYMid meet" fill="currentColor">
+                        <g transform="translate(0.000000,180.000000) scale(0.050000,-0.050000)" fill="currentColor" stroke="none">
+                            <path d="M1380 3297 c-1477 -241 -1787 -2244 -450 -2908 1448 -720 2863 920 1963 2275 -42 63 -70 124 -63 135 28 46 1577 27 1738 -21 719 -214 949 -1042 433 -1560 -208 -209 -431 -296 -761 -297 -149 -1 -147 -4 -142 347 2 171 -2 352 -9 402 l-14 90 -247 0 -248 0 0 -668 0 -667 45 -12 c73 -20 594 -15 814 8 1189 122 1759 1473 1002 2374 -223 266 -503 430 -846 495 -183 34 -3009 41 -3215 7z m423 -506 c841 -150 1162 -1193 545 -1770 -425 -397 -1048 -396 -1452 4 -728 720 -98 1946 907 1766z"/>
+                        </g>
+                    </svg>
+                    <span>OPENDOM</span>
+                </div>
+                <button id="profileBtn" class="profile-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Section -->
+            <section id="homeSection" class="section active">
+                <h2>Tableau de bord</h2>
+                <div id="deviceCards" class="device-grid">
+                    <!-- Device cards will be dynamically generated -->
+                </div>
+            </section>
+
+
+
+            <!-- Devices Section -->
+            <section id="devicesSection" class="section">
+                <div class="devices-tabs">
+                    <button class="tab-btn active" data-tab="devices">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 12h8"/>
+                            <path d="M12 8v8"/>
+                        </svg>
+                        Appareils
+                    </button>
+                    <button class="tab-btn" data-tab="rules">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="6" cy="19" r="3"/>
+                            <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/>
+                            <circle cx="18" cy="5" r="3"/>
+                        </svg>
+                        Règles
+                    </button>
+                </div>
+
+                <!-- Devices Tab -->
+                <div id="devicesTab" class="tab-content active">
+                    <h2>Appareils</h2>
+                    <div class="devices-controls">
+                        <button id="addDeviceBtn" class="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 12h8"/>
+                                <path d="M12 8v8"/>
+                            </svg>
+                            Ajouter appareil
+                        </button>
+                    </div>
+                    <div id="devicesList" class="devices-list">
+                        <!-- Devices configuration will be populated -->
+                    </div>
+                </div>
+
+                <!-- Rules Tab -->
+                <div id="rulesTab" class="tab-content">
+                    <h2>Règles d'automatisation</h2>
+                    <div class="devices-controls">
+                        <button id="addRuleBtn" class="btn btn-primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Ajouter règle
+                        </button>
+                    </div>
+                    <div id="rulesList" class="devices-list">
+                        <!-- Rules will be populated -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settingsSection" class="section">
+                <h2>Paramètres</h2>
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Préférences</h3>
+                        <div class="setting-item">
+                            <label>Thème sombre</label>
+                            <button id="themeToggle" class="toggle-btn">
+                                <span class="toggle-slider"></span>
+                            </button>
+                        </div>
+                        <div class="setting-item">
+                            <label>Notifications</label>
+                            <button id="notificationToggle" class="toggle-btn">
+                                <span class="toggle-slider"></span>
+                            </button>
+                        </div>
+                        <div class="setting-item">
+                            <label>Test notification</label>
+                            <button id="testNotificationBtn" class="btn btn-secondary">Tester</button>
+                        </div>
+                    </div>
+                    <div class="settings-card">
+                        <h3>État du système</h3>
+                        <div class="system-stats">
+                            <div class="stat-item">
+                                <span>Mémoire libre</span>
+                                <span id="freeMemory">--</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Température CPU</span>
+                                <span id="cpuTemp">--</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Uptime</span>
+                                <span id="uptime">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-section="home">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span>Accueil</span>
+            </button>
+
+            <button class="nav-btn" data-section="devices">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M8 12h8"/>
+                    <path d="M12 8v8"/>
+                </svg>
+                <span>Appareils</span>
+            </button>
+            <button class="nav-btn" data-section="settings">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                </svg>
+                <span>Paramètres</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="profile-info">
+                <div class="avatar">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <h3 id="profileName">Utilisateur</h3>
+                <p id="profileRole">Propriétaire</p>
+            </div>
+            <button id="logoutBtn" class="btn btn-secondary">Se déconnecter</button>
+        </div>
+    </div>
+
+    <!-- Add/Edit Device Modal -->
+    <div id="deviceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="deviceModalTitle">Ajouter un appareil</h3>
+                <button id="closeDeviceModal" class="close-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <form id="deviceForm">
+                <div class="form-group">
+                    <label for="deviceName">Nom de l'appareil</label>
+                    <input type="text" id="deviceName" required>
+                </div>
+                <div class="form-group">
+                    <label for="deviceType">Type d'appareil</label>
+                    <select id="deviceType" required>
+                        <option value="">Sélectionner...</option>
+                        <option value="sensor">Capteur</option>
+                        <option value="actuator">Actionneur</option>
+                    </select>
+                </div>
+                <div class="form-group" id="sensorTypeGroup" style="display: none;">
+                    <label for="sensorType">Type de capteur</label>
+                    <select id="sensorType">
+                        <option value="DHT11">DHT11 (Température/Humidité)</option>
+                        <option value="MQ2">MQ2 (Gaz)</option>
+                        <option value="ASC">ASC (Courant)</option>
+                        <option value="LDR">LDR (Luminosité)</option>
+                        <option value="PIR">PIR (Mouvement)</option>
+                        <option value="BUTTON">Bouton</option>
+                    </select>
+                </div>
+                <div class="form-group" id="actuatorTypeGroup" style="display: none;">
+                    <label for="actuatorType">Type d'actionneur</label>
+                    <select id="actuatorType">
+                        <option value="RELAY">Relais</option>
+                        <option value="BUZZER">Buzzer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="devicePin">Pin GPIO</label>
+                    <input type="number" id="devicePin" min="0" max="39" required>
+                </div>
+                <div class="form-group" id="readIntervalGroup" style="display: none;">
+                    <label for="readInterval">Intervalle de lecture (ms)</label>
+                    <input type="number" id="readInterval" min="100" value="1000">
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="deviceEnabled" checked>
+                        <span class="checkbox-custom"></span>
+                        Appareil activé
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelDevice" class="btn btn-secondary">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Rule Modal -->
+    <div id="ruleModal" class="modal">
+        <div class="modal-content rule-modal">
+            <div class="modal-header">
+                <h3 id="ruleModalTitle">Ajouter une règle</h3>
+                <button id="closeRuleModal" class="close-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <form id="ruleForm">
+                <div class="form-group">
+                    <label for="ruleName">Nom de la règle</label>
+                    <input type="text" id="ruleName" required placeholder="Ex: Éclairage automatique">
+                </div>
+                
+                <div class="form-group">
+                    <label for="triggerType">Type de déclenchement</label>
+                    <select id="triggerType" required>
+                        <option value="">Sélectionner...</option>
+                        <option value="sensor_threshold">Seuil de capteur</option>
+                        <option value="sensor_combination">Combinaison de capteurs</option>
+                        <option value="schedule">Horaire programmé</option>
+                        <option value="critical_event">Événement critique</option>
+                    </select>
+                </div>
+
+                <!-- Conditions Section -->
+                <div id="conditionsSection" style="display: none;">
+                    <h4>Conditions de déclenchement</h4>
+                    <div id="conditionsList">
+                        <!-- Conditions will be added dynamically -->
+                    </div>
+                    <button type="button" id="addConditionBtn" class="btn btn-secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Ajouter condition
+                    </button>
+                </div>
+
+                <!-- Schedule Section -->
+                <div id="scheduleSection" style="display: none;">
+                    <h4>Programmation horaire</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startTime">Heure de début</label>
+                            <input type="time" id="startTime">
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">Heure de fin</label>
+                            <input type="time" id="endTime">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Jours de la semaine</label>
+                        <div class="days-selector">
+                            <label class="day-checkbox"><input type="checkbox" value="mon"> Lun</label>
+                            <label class="day-checkbox"><input type="checkbox" value="tue"> Mar</label>
+                            <label class="day-checkbox"><input type="checkbox" value="wed"> Mer</label>
+                            <label class="day-checkbox"><input type="checkbox" value="thu"> Jeu</label>
+                            <label class="day-checkbox"><input type="checkbox" value="fri"> Ven</label>
+                            <label class="day-checkbox"><input type="checkbox" value="sat"> Sam</label>
+                            <label class="day-checkbox"><input type="checkbox" value="sun"> Dim</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions Section -->
+                <div id="actionsSection" style="display: none;">
+                    <h4>Actions à exécuter</h4>
+                    <div id="actionsList">
+                        <!-- Actions will be added dynamically -->
+                    </div>
+                    <button type="button" id="addActionBtn" class="btn btn-secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Ajouter action
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="ruleEnabled" checked>
+                        <span class="checkbox-custom"></span>
+                        Règle activée
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="cancelRule" class="btn btn-secondary">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Root Password Modal -->
+    <div id="rootPasswordModal" class="modal">
+        <div class="modal-content">
+            <h3>Authentification administrateur</h3>
+            <p>Cette action nécessite le mot de passe administrateur.</p>
+            <div class="form-group">
+                <label for="rootPassword">Mot de passe administrateur</label>
+                <input type="password" id="rootPassword" required>
+            </div>
+            <div id="rootPasswordError" class="error-message"></div>
+            <div class="form-actions">
+                <button id="cancelRootAuth" class="btn btn-secondary">Annuler</button>
+                <button id="confirmRootAuth" class="btn btn-primary">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>

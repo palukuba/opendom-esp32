@@ -1,0 +1,230 @@
+{
+  "system": {
+    "wifi": {
+      "ssid": "OPENDOM",
+      "password": "opendom2025"
+    },
+    "auth": {
+      "username": "astron",
+      "password": "astron",
+      "root_password": "astronome"
+    },
+    "captive_portal": true
+  },
+  "status_led": {
+    "enabled": true,
+    "red_pin": 25,
+    "green_pin": 26,
+    "blue_pin": 27,
+    "description": "LED RGB de signalisation automatique"
+  },
+  "devices": [
+    {
+      "id": "dht11_1",
+      "name": "Capteur Temp/Humidité",
+      "type": "sensor",
+      "sensor_type": "DHT11",
+      "pin": 4,
+      "enabled": true,
+      "read_interval": 30000
+    },
+    {
+      "id": "mq2_1",
+      "name": "Capteur Gaz",
+      "type": "sensor",
+      "sensor_type": "MQ2",
+      "pin": 35,
+      "enabled": true,
+      "read_interval": 5000
+    },
+    {
+      "id": "asc_1",
+      "name": "Capteur Courant",
+      "type": "sensor",
+      "sensor_type": "ASC",
+      "pin": 34,
+      "enabled": true,
+      "read_interval": 60000
+    },
+    {
+      "id": "ldr_1",
+      "name": "Capteur Luminosité",
+      "type": "sensor",
+      "sensor_type": "LDR",
+      "pin": 33,
+      "enabled": true,
+      "read_interval": 10000
+    },
+    {
+      "id": "pir_1",
+      "name": "Détecteur Mouvement",
+      "type": "sensor",
+      "sensor_type": "PIR",
+      "pin": 2,
+      "enabled": true,
+      "read_interval": 1000
+    },
+    {
+      "id": "button_1",
+      "name": "Bouton Urgence",
+      "type": "sensor",
+      "sensor_type": "BUTTON",
+      "pin": 0,
+      "enabled": true,
+      "read_interval": 100
+    },
+    {
+      "id": "relay_1",
+      "name": "Relais Ventilation",
+      "type": "actuator",
+      "actuator_type": "RELAY",
+      "pin": 5,
+      "enabled": true,
+      "state": false
+    },
+    {
+      "id": "relay_2",
+      "name": "Relais Éclairage Extérieur",
+      "type": "actuator",
+      "actuator_type": "RELAY",
+      "pin": 18,
+      "enabled": true,
+      "state": false
+    },
+    {
+      "id": "relay_3",
+      "name": "Prise Télé",
+      "type": "actuator",
+      "actuator_type": "RELAY",
+      "pin": 19,
+      "enabled": true,
+      "state": false
+    },
+    {
+      "id": "buzzer_1",
+      "name": "Buzzer Alarme",
+      "type": "actuator",
+      "actuator_type": "BUZZER",
+      "pin": 21,
+      "enabled": true,
+      "state": false
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule_1",
+      "name": "Ventilation Auto",
+      "enabled": true,
+      "trigger_type": "sensor_threshold",
+      "conditions": [
+        {
+          "sensor_id": "dht11_1",
+          "parameter": "temperature",
+          "operator": ">",
+          "value": 30
+        },
+        {
+          "sensor_id": "mq2_1",
+          "parameter": "gas",
+          "operator": ">",
+          "value": 300,
+          "logic": "OR"
+        }
+      ],
+      "actions": [
+        {
+          "actuator_id": "relay_1",
+          "action": "turn_on"
+        }
+      ],
+      "deactivation_conditions": [
+        {
+          "sensor_id": "dht11_1",
+          "parameter": "temperature",
+          "operator": "<",
+          "value": 30
+        },
+        {
+          "sensor_id": "mq2_1",
+          "parameter": "gas",
+          "operator": "<",
+          "value": 300,
+          "logic": "AND"
+        }
+      ]
+    },
+    {
+      "id": "rule_2",
+      "name": "Éclairage Extérieur Auto",
+      "enabled": true,
+      "trigger_type": "sensor_combination",
+      "conditions": [
+        {
+          "sensor_id": "ldr_1",
+          "parameter": "light",
+          "operator": "<",
+          "value": 400
+        },
+        {
+          "sensor_id": "pir_1",
+          "parameter": "motion",
+          "operator": "==",
+          "value": 1,
+          "logic": "AND"
+        }
+      ],
+      "actions": [
+        {
+          "actuator_id": "relay_2",
+          "action": "turn_on",
+          "duration": 120000
+        }
+      ]
+    },
+    {
+      "id": "rule_3",
+      "name": "Prise Télé Horaire",
+      "enabled": true,
+      "trigger_type": "schedule",
+      "schedule": {
+        "start_time": "13:00",
+        "end_time": "16:00",
+        "days": ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+      },
+      "actions": [
+        {
+          "actuator_id": "relay_3",
+          "action": "turn_on"
+        }
+      ]
+    },
+    {
+      "id": "rule_4",
+      "name": "Alarme Gaz/Urgence",
+      "enabled": true,
+      "trigger_type": "critical_event",
+      "conditions": [
+        {
+          "sensor_id": "mq2_1",
+          "parameter": "gas",
+          "operator": ">",
+          "value": 400
+        },
+        {
+          "sensor_id": "button_1",
+          "parameter": "pressed",
+          "operator": "==",
+          "value": 1,
+          "logic": "OR"
+        }
+      ],
+      "actions": [
+        {
+          "actuator_id": "buzzer_1",
+          "action": "turn_on",
+          "pattern": "alarm"
+        }
+      ]
+    }
+  ]
+}
