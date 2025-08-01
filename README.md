@@ -205,7 +205,7 @@ Le code source est libre et distribué sous licence MIT. Vous êtes libre de l'u
 
 ## 🎓 Contexte académique
 
-OPENDOM a été développé comme projet de fin d'études en systèmes embarqués et IoT. Il démontre:
+OPENDOM a été développé comme projet tutore. Il démontre:
 
 - **Intégration hardware/software** complète
 - **Programmation ESP32** avancée avec FreeRTOS
